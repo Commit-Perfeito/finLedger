@@ -6,7 +6,10 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Entry } from './entry.entity.js';
-import { TransactionType, TransactionStatus } from '../../common/enums/index.js';
+import {
+  TransactionType,
+  TransactionStatus,
+} from '../../common/enums/index.js';
 
 @Entity('transactions')
 export class Transaction {
@@ -16,7 +19,11 @@ export class Transaction {
   @Column({ type: 'text', enum: TransactionType })
   type: TransactionType;
 
-  @Column({ type: 'text', enum: TransactionStatus, default: TransactionStatus.PENDING })
+  @Column({
+    type: 'text',
+    enum: TransactionStatus,
+    default: TransactionStatus.PENDING,
+  })
   status: TransactionStatus;
 
   @Column({ name: 'idempotency_key', type: 'text', unique: true })

@@ -7,10 +7,7 @@ import { TransactionsController } from './transactions.controller.js';
 import { LedgerModule } from '../ledger/ledger.module.js';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Transaction, Entry]),
-    LedgerModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Transaction, Entry]), LedgerModule],
   controllers: [TransactionsController],
   providers: [TransactionsService],
   exports: [TransactionsService],

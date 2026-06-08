@@ -48,7 +48,7 @@ export class LedgerService implements OnModuleInit {
     } catch (error) {
       if (attempt < MAX_RETRIES) {
         this.logger.warn(
-          `Retry ${attempt}/${MAX_RETRIES} for tx ${data['transactionId']}`,
+          `Retry ${attempt}/${MAX_RETRIES} for tx ${String(data['transactionId'])}`,
         );
         await this.delay(RETRY_DELAY_MS * attempt);
         return this.processWithRetry(data, attempt + 1);
@@ -61,12 +61,12 @@ export class LedgerService implements OnModuleInit {
 
   private async recordEvent(data: Record<string, unknown>): Promise<void> {
     const existing = await this.ledgerEventModel.findOne({
-      idempotencyKey: data['idempotencyKey'] as string,
+      idempotencyKey: data['idempotencyKey'],
     });
 
     if (existing) {
       this.logger.debug(
-        `Ledger event already recorded for key: ${data['idempotencyKey']}`,
+        `Ledger event already recorded for key: ${String(data['idempotencyKey'])}`,
       );
       return;
     }
@@ -85,7 +85,9 @@ export class LedgerService implements OnModuleInit {
       processedAt: new Date(),
     });
 
-    this.logger.log(`Ledger event recorded for tx: ${data['transactionId']}`);
+    this.logger.log(
+      `Ledger event recorded for tx: ${String(data['transactionId'])}`,
+    );
   }
 
   async findAll(): Promise<LedgerEventDocument[]> {

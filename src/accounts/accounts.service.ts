@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Account } from './entities/account.entity.js';
@@ -48,7 +45,9 @@ export class AccountsService {
     return account;
   }
 
-  async getBalance(id: string): Promise<{ accountId: string; balance: number }> {
+  async getBalance(
+    id: string,
+  ): Promise<{ accountId: string; balance: number }> {
     const balance = await this.balancesRepository.findOne({
       where: { accountId: id },
     });

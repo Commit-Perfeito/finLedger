@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  ConflictException,
-  Logger,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Transaction } from './entities/transaction.entity.js';
@@ -58,7 +53,8 @@ export class TransactionsService {
       await manager.save(entries);
 
       for (const entry of dto.entries) {
-        const delta = entry.type === EntryType.DEBIT ? -entry.amount : entry.amount;
+        const delta =
+          entry.type === EntryType.DEBIT ? -entry.amount : entry.amount;
         await manager
           .createQueryBuilder()
           .update(AccountBalance)

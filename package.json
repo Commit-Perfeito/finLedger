@@ -11,6 +11,7 @@
     "migration:generate": "npm run build && npx typeorm migration:generate -d dist/data-source.js",
     "migration:run": "npm run build && npx typeorm migration:run -d dist/data-source.js",
     "migration:revert": "npm run build && npx typeorm migration:revert -d dist/data-source.js",
+    "seed": "npm run migration:run && npx ts-node -r tsconfig-paths/register src/seeds/seed-ledger-events.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -78,6 +79,9 @@
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
