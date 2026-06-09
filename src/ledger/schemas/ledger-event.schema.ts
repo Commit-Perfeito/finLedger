@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type LedgerEventDocument = HydratedDocument<LedgerEvent>;
@@ -20,16 +20,13 @@ export class LedgerEvent {
   @Prop({ type: Object })
   metadata: Record<string, unknown>;
 
-  @Prop({
-    type: [
-      {
-        accountId: String,
-        amount: Number,
-        type: String,
-      },
-    ],
-    required: true,
-  })
+  @Prop([
+    raw({
+      accountId: { type: String },
+      amount: { type: Number },
+      type: { type: String },
+    }),
+  ])
   entries: Array<{
     accountId: string;
     amount: number;

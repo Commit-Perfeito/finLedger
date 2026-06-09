@@ -21,8 +21,8 @@ export class LedgerService implements OnModuleInit {
     private readonly natsClient: NatsClientService,
   ) {}
 
-  async onModuleInit() {
-    await this.subscribeToTransactions();
+  onModuleInit() {
+    void this.subscribeToTransactions();
   }
 
   private async subscribeToTransactions(): Promise<void> {

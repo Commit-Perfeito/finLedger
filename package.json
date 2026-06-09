@@ -22,7 +22,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:load": "docker run --rm --network=host -v ./load-tests:/scripts grafana/k6 run /scripts/full-load.js",
+    "test:load:light": "docker run --rm --network=host -v ./load-tests:/scripts grafana/k6 run /scripts/light-load.js",
+    "test:load:smoke": "docker run --rm --network=host -v ./load-tests:/scripts grafana/k6 run /scripts/scenarios/health-check.js",
+    "test:load:report": "docker run --rm --network=host -v ./load-tests:/scripts grafana/k6 run --out json=/scripts/results.json /scripts/full-load.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

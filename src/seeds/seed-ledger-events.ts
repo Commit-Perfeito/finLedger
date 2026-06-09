@@ -13,9 +13,9 @@ const ledgerEventSchema = new mongoose.Schema(
     metadata: { type: Object },
     entries: [
       {
-        accountId: String,
-        amount: Number,
-        type: String,
+        accountId: { type: String },
+        amount: { type: Number },
+        type: { type: String },
       },
     ],
     processedAt: { type: Date },

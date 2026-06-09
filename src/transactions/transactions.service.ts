@@ -5,8 +5,7 @@ import { Transaction } from './entities/transaction.entity.js';
 import { Entry } from './entities/entry.entity.js';
 import { AccountBalance } from '../accounts/entities/account-balance.entity.js';
 import { CreateTransactionDto } from './dto/create-transaction.dto.js';
-import { TransactionStatus } from '../common/enums/index.js';
-import { EntryType } from '../common/enums/index.js';
+import { EntryType, TransactionStatus } from '../common/enums/index.js';
 import { NatsClientService } from '../ledger/nats-client.service.js';
 
 @Injectable()
