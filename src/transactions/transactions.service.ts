@@ -19,6 +19,22 @@ export class TransactionsService {
     private readonly natsClient: NatsClientService,
   ) {}
 
+  private validateDoubleEntry(dto: CreateTransactionDto): void {
+    const totalDebits = dto.entries
+      .filter((e) => e.type === EntryType.DEBIT)
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    const totalCredits = dto.entries
+      .filter((e) => e.type === EntryType.CREDIT)
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    if (Math.abs(totalDebits - totalCredits) > 0.001) {
+      throw new BadRequestException(
+        `Double-entry violation: debits (${totalDebits}) must equal credits (${totalCredits})`,
+      );
+    }
+  }
+
   async create(dto: CreateTransactionDto): Promise<Transaction> {
     const existing = await this.transactionsRepository.findOne({
       where: { idempotencyKey: dto.idempotencyKey },
@@ -99,21 +115,5 @@ export class TransactionsService {
       throw new BadRequestException(`Transaction ${id} not found`);
     }
     return tx;
-  }
-
-  private validateDoubleEntry(dto: CreateTransactionDto): void {
-    const totalDebits = dto.entries
-      .filter((e) => e.type === EntryType.DEBIT)
-      .reduce((sum, e) => sum + e.amount, 0);
-
-    const totalCredits = dto.entries
-      .filter((e) => e.type === EntryType.CREDIT)
-      .reduce((sum, e) => sum + e.amount, 0);
-
-    if (Math.abs(totalDebits - totalCredits) > 0.001) {
-      throw new BadRequestException(
-        `Double-entry violation: debits (${totalDebits}) must equal credits (${totalCredits})`,
-      );
-    }
   }
 }
